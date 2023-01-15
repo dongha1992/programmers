@@ -20,3 +20,5 @@ answer = cnt > stack.length ? -1 : cnt;
 return answer;
 
 }
+
+// let solution=(a,b)=>(b+b).indexOf(a)
