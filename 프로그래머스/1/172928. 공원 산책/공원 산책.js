@@ -72,17 +72,6 @@ for (let i = 0; i < n; i++) {
         } else if (direction === 'E') {
           const curI = currentPos[0];
           const nxJ = currentPos[1] + Number(count);
-          const check = (curJ, nxI, nxJ) => {
-            let flag = false;
-            for (let l = curJ; l <= nxJ; l++) {
-              if (parks[nxI][l] === 'X' || !parks[nxI][l]) {
-                flag = true;
-                break;
-              }
-            }
-            return flag;
-          };
-  
           const isLimit = nxJ > m || nxJ < 0
           const canCheck = currentPos[1] >= 0 && curI > 0 && nxJ > 0;
           if (
