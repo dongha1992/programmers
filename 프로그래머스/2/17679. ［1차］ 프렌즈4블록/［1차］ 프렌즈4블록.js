@@ -81,7 +81,7 @@ const checkBoard = (board) => {
 
 
 while(true){
- board = reorderBoard(changeBoard(checkBoard(board)))
+  board = reorderBoard(changeBoard(checkBoard(board)))
   if(finishCnt > 380000) break;
 }
 
