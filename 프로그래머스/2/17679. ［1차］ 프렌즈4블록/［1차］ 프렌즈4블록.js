@@ -10,8 +10,6 @@ const checked = Array.from({ length: m }, () => new Array(n).fill(1));
 
 const reorderBoard = (board) => {
   let resultBoard = board
-  let reorderCheckArr = Array.from({length:n}).fill(1)
-
   
     for(let col = 0; col < n; col++){
      for(let row = m-1; row >= 0; row--){
@@ -84,7 +82,7 @@ const checkBoard = (board) => {
 
 while(true){
  board = reorderBoard(changeBoard(checkBoard(board)))
-  if(finishCnt > 500000) break;
+  if(finishCnt > 380000) break;
 }
 
   return  m * n - checked.flatMap(arr => arr.filter(c=>c)).length
