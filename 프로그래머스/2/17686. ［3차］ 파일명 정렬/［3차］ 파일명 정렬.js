@@ -1,8 +1,3 @@
-
-const extractString = (str) => {
-  return str.match(/[a-zA-Z]+/g).join('');
-};
-
 const getNumberPart = (str) => {
   let targetIndex = 0;
   for (let i = 0; i < str.length; i++) {
@@ -33,6 +28,7 @@ const getFormatFile = (str) => {
   const _tail = numberEndIndex
     ? numberAndTailStr.substr(numberEndIndex, str.length)
     : '';
+    
   return [_head, _number, _tail];
 };
 
@@ -41,7 +37,6 @@ const solution = (files) => {
 
   for (let i = 0; i < files.length; i++) {
     const [HEAD, NUMBER, TAIL] = getFormatFile(files[i]);
-    console.log(HEAD, NUMBER, TAIL);
     splitedArr.push([HEAD, NUMBER, TAIL]);
   }
 
@@ -51,10 +46,10 @@ const solution = (files) => {
     const numberA = a[1];
     const numberB = b[1];
 
-    if ((headA).toLowerCase() < (headB).toLowerCase())
+    if (headA.toLowerCase() < headB.toLowerCase())
       return -1;
     else if (
-      (headA).toLowerCase() > (headB).toLowerCase()
+      headA.toLowerCase() > headB.toLowerCase()
     )
       return 1;
     else {
@@ -66,5 +61,3 @@ const solution = (files) => {
 
   return sortedByHeadArr.map((a) => a.join(''));
 };
-
-
