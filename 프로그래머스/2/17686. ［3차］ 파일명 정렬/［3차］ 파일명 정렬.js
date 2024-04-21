@@ -32,6 +32,19 @@ const getFormatFile = (str) => {
   return [_head, _number, _tail];
 };
 
+function compareArrays(a, b) {
+  const headA = a[0].toLowerCase();
+  const headB = b[0].toLowerCase();
+  const numberA = Number(a[1]);
+  const numberB = Number(b[1]);
+
+  if (headA < headB) return -1;
+  if (headA > headB) return 1;
+  if (numberA < numberB) return -1;
+  if (numberA > numberB) return 1;
+  return 0;
+}
+
 const solution = (files) => {
   const splitedArr = [];
 
@@ -40,24 +53,7 @@ const solution = (files) => {
     splitedArr.push([HEAD, NUMBER, TAIL]);
   }
 
-  const sortedByHeadArr = splitedArr.sort((a, b) => {
-    const headA = a[0];
-    const headB = b[0];
-    const numberA = a[1];
-    const numberB = b[1];
-
-    if (headA.toLowerCase() < headB.toLowerCase())
-      return -1;
-    else if (
-      headA.toLowerCase() > headB.toLowerCase()
-    )
-      return 1;
-    else {
-      if (Number(numberA) < Number(numberB)) return -1;
-      else if (Number(numberA) > Number(numberB)) return 1;
-      else return 0;
-    }
-  });
+  const sortedByHeadArr = splitedArr.sort(compareArrays);
 
   return sortedByHeadArr.map((a) => a.join(''));
 };
