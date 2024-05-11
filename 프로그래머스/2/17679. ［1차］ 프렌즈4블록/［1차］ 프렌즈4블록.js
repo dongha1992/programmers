@@ -88,3 +88,4 @@ while(true){
   return  m * n - checked.flatMap(arr => arr.filter(c=>c)).length
 };
 
+
