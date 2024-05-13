@@ -1,2 +1,1 @@
-# programmers
-This is a auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+1일1알고리즘(가끔4일)
