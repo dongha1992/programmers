@@ -10,9 +10,9 @@ function solution(n, stations, w) {
     const start = curStation - w;
     const end = curStation + w;
 
-    if (lt > n) return answer;
+    // if (lt > n) return answer;
     if (start > lt) {
-      const needStations = mathCeil((start - lt) / range);
+      const needStations = Math.ceil((start - lt) / range);
       answer += needStations;
     }
     lt = end + 1;
@@ -20,7 +20,7 @@ function solution(n, stations, w) {
     
   if (lt <= n) {
     const rest = n - lt + 1;
-    answer += mathCeil(rest / range);
+    answer += Math.ceil(rest / range);
   }
     
   return answer;
