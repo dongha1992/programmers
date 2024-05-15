@@ -10,8 +10,6 @@ function solution(a, b) {
       answer++;
       lt++;
       rt++
-    } else if(a[lt] > b[rt]){
-      rt++;
     } else {
       rt++
     }
