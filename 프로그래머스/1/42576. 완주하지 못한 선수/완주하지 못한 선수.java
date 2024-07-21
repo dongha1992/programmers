@@ -1,18 +1,27 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        Arrays.sort(participant);
-        Arrays.sort(completion);
+        Map<String, Integer> participantMap = new HashMap<>();
         
-        for(int i = 0; i < completion.length; i++) {
-            if(!participant[i].equals(completion[i])) {
-                return participant[i];
+        for(String p : participant){
+            if (participantMap.containsKey(p)) {
+                participantMap.put(p, participantMap.get(p) + 1);
+            } else {
+                participantMap.put(p, 1);
             }
         }
-        return participant[participant.length - 1];
+        
+        for(String c : completion){
+            participantMap.put(c, participantMap.get(c)-1);
+        }
+        
+        for (Map.Entry<String, Integer> entry : participantMap.entrySet()) {
+          if(entry.getValue() > 0) return entry.getKey();
+        }
+        
+        return "";
     }
 }
