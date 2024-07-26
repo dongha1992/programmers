@@ -7,15 +7,11 @@ class Solution {
         Map<String, Integer> participantMap = new HashMap<>();
         
         for(String p : participant){
-            if (participantMap.containsKey(p)) {
-                participantMap.put(p, participantMap.get(p) + 1);
-            } else {
-                participantMap.put(p, 1);
-            }
+            participantMap.put(p, participantMap.getOrDefault(p, 0) + 1);
         }
         
         for(String c : completion){
-            participantMap.put(c, participantMap.get(c)-1);
+            participantMap.put(c, participantMap.get(c) - 1);
         }
         
         for (Map.Entry<String, Integer> entry : participantMap.entrySet()) {
