@@ -1,54 +1,46 @@
 
+const START_INDEX = 0;
+
 const solution = (files) => {
   return files
-    .map(getFormatFile)
-    .sort(compareArrays)
-    .map(part => joined(part, ""));
+    .map(getApartFile)
+    .sort(sortFile)
+    .map((part) => getJoined(part, ''));
 };
 
+const getJoined = (part, joint) => {
+  return part.join(joint);
+};
 
-function getNumberPart(str) {
-  let targetIndex = 0;
-  for (let i = 0; i < Math.min(str.length, 5); i++) {
-    if (isNaN(Number(str[i]))) {
-      targetIndex = i;
-      break;
-    }
-    targetIndex = i + 1;
-  }
-  return targetIndex;
-}
-
-function getFormatFile(str) {
-  const headEndIndex = str.search(/\d+/);
-  const _head = str.substr(0, headEndIndex);
-
-  const numberAndTailStr = str.substr(headEndIndex, str.length);
-  const numberEndIndex =
-    getNumberPart(numberAndTailStr) ?? str.length - numberEndIndex;
-  const _number = str.substr(headEndIndex, numberEndIndex);
-
-  const _tail = numberEndIndex
-    ? numberAndTailStr.substr(numberEndIndex, str.length)
-    : '';
-
-  return [_head, _number, _tail];
-}
-
-function compareArrays(a, b) {
+const sortFile = (a, b) => {
   const headA = a[0].toLowerCase();
   const headB = b[0].toLowerCase();
   const numberA = Number(a[1]);
   const numberB = Number(b[1]);
 
-  if (headA < headB) return -1;
-  if (headA > headB) return 1;
-  if (numberA < numberB) return -1;
-  if (numberA > numberB) return 1;
-  return 0;
-}
+  if (headA !== headB) return headA.localeCompare(headB);
+  return numberA - numberB;
+};
 
+const getTail = (str, headEndIndex, numberEndIndex) => {
+  if (numberEndIndex < 0) return '';
+  return str.substr(numberEndIndex + headEndIndex);
+};
 
-function joined(part, joint){
-  return part.join(joint)
-}
+const getNumber = (str) => {
+  const endIndex = str.search(/\D/);
+  if (endIndex < 0) return [str, -1];
+  return [str.substr(START_INDEX, endIndex), endIndex];
+};
+
+const getHead = (str) => {
+  const endIndex = str.search(/\d+/);
+  return [str.substr(START_INDEX, endIndex), endIndex];
+};
+
+const getApartFile = (str) => {
+  const [head, headEndIndex] = getHead(str);
+  const [number, numberEndIndex] = getNumber(str.substr(headEndIndex));
+  const tail = getTail(str, headEndIndex, numberEndIndex);
+  return [head, number, tail];
+};
