@@ -1,18 +1,18 @@
 function solution(targets) {
- let answer= 0;
-  targets.sort((a, b) => {
-    if(a[1] === b[1]) return a[0] - b[0]
-    else return a[1] - b[1]
-  })
-
+let answer = 0;
+  
+ targets.sort(([a1, a2], [b1, b2]) => 
+  a2 === b2 ? a1 - b1 : a2 - b2
+)
+  
   let et = 0;
-  for(let x of targets){
-    const [start, end] = x
-    if(start >= et){
+  for(const x of targets){
+    const [s, e] = x;
+    if(s >= et){
       answer++;
-      et = end
+      et = e;
     }
   }
   
-  return answer
+  return answer;
 }
