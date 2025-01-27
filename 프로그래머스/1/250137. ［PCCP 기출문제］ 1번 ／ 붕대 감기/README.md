@@ -1,10 +1,10 @@
 # [level 1] [PCCP 기출문제] 1번 / 붕대 감기 - 250137 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250137#qna) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250137) 
 
 ### 성능 요약
 
-메모리: 33.5 MB, 시간: 0.39 ms
+메모리: 33.7 MB, 시간: 0.71 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 04월 07일 16:03:48
+2025년 01월 27일 18:06:23
 
 ### 문제 설명
 
