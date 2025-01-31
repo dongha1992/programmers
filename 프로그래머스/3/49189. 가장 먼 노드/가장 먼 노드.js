@@ -1,17 +1,14 @@
 function solution(n, edge) {
  const graph = {}
-  for([from, to] of edge){
-    if(graph[from]){
-      graph[from].push(to)
-    } else {
-      graph[from] = [to]
-    }
-    if(graph[to]){
-       graph[to].push(from)
-    } else {
-       graph[to] = [from]
-    }
-  }
+ 
+ edge.forEach(([from, to]) => {
+  graph[from] = graph[from] || [];
+  graph[from].push(to);
+  
+  graph[to] = graph[to] || [];
+  graph[to].push(from);
+});
+
 
   const visited = [1]
   const queue = [[1, 0]]
