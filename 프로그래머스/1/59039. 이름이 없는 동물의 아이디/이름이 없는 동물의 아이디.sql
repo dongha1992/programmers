@@ -1,0 +1,5 @@
+-- 코드를 입력하세요
+SELECT ai.ANIMAL_ID
+FROM ANIMAL_INS ai
+where NAME IS NULL
+ORDER BY ai.ANIMAL_ID ASC;
