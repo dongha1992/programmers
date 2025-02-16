@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+SELECT crcc.CAR_TYPE, COUNT(*) AS Cars
+FROM CAR_RENTAL_COMPANY_CAR crcc
+WHERE crcc.OPTIONS REGEXP '통풍시트|열선시트|가죽시트'
+GROUP BY crcc.CAR_TYPE
+ORDER BY crcc.CAR_TYPE ASC;
