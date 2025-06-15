@@ -1,37 +1,34 @@
 function solution(progresses, speeds) {
- const answer = [];
-  const days = []
+  const days = progresses.map((p, i) => Math.ceil((100 - p) / speeds[i]));
+  const queue = [...days]
+  const answer = []
   
-  for(let i = 0; i < progresses.length; i++) { 
-    let p = progresses[i];
-    const s = speeds[i]
-    let day = 0
+  while(queue.length) {
+    const depoly = queue.shift();
+    let cnt = 1;
     
-    while(p < 100){
-      p += s
-      day++
+    while(queue.length && queue[0] <= depoly) {
+      queue.shift();
+      cnt++;
     }
-    days.push(day)  
+    answer.push(cnt)
   }
-  
-  let max = days[0]
-  let cnt = 1;
-  
-  for(let i = 0; i < days.length; i++){
-    const nextDay = days[i+1];
-        
-    if(!nextDay){
-      answer.push(cnt);
-    }
-    
-    if(max < nextDay) {
-      answer.push(cnt);
-      max = nextDay;
-      cnt = 1
-    } else {
-      cnt++
-    }
-  }
-
-  return answer
+  return answer;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
