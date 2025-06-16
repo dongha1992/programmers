@@ -1,8 +1,5 @@
 function solution(book_time) {
   const timeTable = [];
-  let answer = 0;
-  let inCnt = 0;
-  let outCnt = 0;
 
   for (let [s, e] of book_time) {
     timeTable.push(['s', convertTimeToNumber(s)]);
