@@ -1,34 +1,39 @@
-function solution(maps) {
-  const dx = [1, 0, -1, 0];
-  const dy = [0, 1, 0, -1];
-  const n = maps.length;
-  const m = maps[0].length;
-  const ch = Array.from({ length: n }, () => Array.from({ length: m }).fill(0));
-  let answer = [];
+function solution (maps) {
+    const dx = [1, 0, -1, 0];
+    const dy = [0, 1, 0, -1];
+    const n = maps.length;
+    const m = maps[0].length;
+    const visited = Array.from({ length: n }, () => Array(m).fill(false));
+    const answer = [];
 
-  const dfs = (i, j) => {
-    ch[i][j] = 1;
-    let days = Number(maps[i][j]);
-    for (let k = 0; k < 4; k++) {
-      const nx = dx[k] + i;
-      const ny = dy[k] + j;
+    function dfs(x, y) {
+        visited[x][y] = true;
+        let count = Number(maps[x][y]);
 
-      if (nx >= 0 && nx < n && ny >= 0 && ny < m && ch[nx][ny] === 0) {
-        if (maps[nx][ny] !== 'X') {
-          days += dfs(nx, ny);
+        for (let k = 0; k < 4; k++) {
+            const nx = x + dx[k];
+            const ny = y + dy[k];
+
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m &&
+                !visited[nx][ny] && maps[nx][ny] !== 'X') {
+                count += dfs(nx, ny);
+            }
         }
-      }
-    }
-    return days;
-  };
 
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < m; j++) {
-      if (maps[i][j] !== 'X' && ch[i][j] === 0) {
-        const days = dfs(i, j);
-        answer.push(days);
-      }
+        return count;
     }
-  }
-  return answer.length ? answer.sort((a, b) => a - b) : [-1];
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            if (!visited[i][j] && maps[i][j] !== 'X') {
+                answer.push(dfs(i, j));
+            }
+        }
+    }
+
+    return answer.length ? answer.sort((a, b) => a - b) : [-1];
 }
+
+
+
+
