@@ -1,86 +1,66 @@
 function solution(places) {
-  const dx = [1, 2, 1,  0, 0, -1,  -1, -2, -1,  0, 0, 1];
-  const dy = [0, 0, 1,  1, 2, 1,  0, 0, -1,  -1, -2, -1];
   const answer = [];
+  const directions = [
+    [0, 1],
+    [1, 0],
+    [0, -1],
+    [-1, 0],
+  ];
+  const row = places.length;
+  const col = places[0].length;
 
- 
-  const checkPlaces = (board) => {
-    board = board.map((b) => b.split(''));
-    const row = board.length;
-    const col = board[0].length;
+  const checkSafePlaces = (place) => {
+    place = place.map((p) => p.split(''));
 
     for (let i = 0; i < row; i++) {
       for (let j = 0; j < col; j++) {
-        const curr = board[i][j];
-        const isPerson = curr === 'P';
-
-        for (let k = 0; k < dx.length; k++) {
-          const nx = i + dx[k];
-          const ny = j + dy[k];
-
-          if (nx >= 0 && nx < row && ny >= 0 && ny < col && isPerson) {
-            const isPersonNearBy = board[nx][ny] === 'P';
-            if (isPersonNearBy) {
-              const manhattanDistance = getManhattanDistance(i, nx, j, ny);
-              if(manhattanDistance === 1) return 0
-              if(manhattanDistance === 2) {
-                if(i === nx){
-                  // 위 아래 중 하나
-                  if(j-2 === ny){
-                    if(board[nx][j-1] === "X") continue;
-                    else return 0
-                  } else if(j+2 === ny){
-                    if(board[nx][j+1] === "X") continue;
-                    else return 0
-                  }
-                } else if(j === ny){
-                  // 왼 오른 중 하나
-                  if(i-2 === nx){
-                    if(board[i-1][ny] === "X") continue;
-                    else return 0
-                  } else if(i+2 === nx){
-                    if(board[i+1][ny] === "X") continue;
-                    else return 0
-                  }
-              
-                } else {
-                        // 대각선
-                  if (i +1 === nx && j - 1 === ny) {
-                  // rightup
-                  if (board[i][j - 1] === 'X' && board[i + 1][j] === 'X') continue;
-                  return 0;
-                } else if (i +1 === nx && j+1===ny) {
-                  // rightdown
-                  if (board[i + 1][j] === 'X' && board[i][j + 1] === 'X') continue;
-                  return 0;
-                } else if (i-1 === nx && j===ny) {
-                  // leftdown
-                  if (board[i - 1][j] === 'X' && board[i][j + 1] === 'X') continue;
-                  return 0;
-                } else if (i - 1 ===nx && j-1 === ny) {
-                  // leftup
-                  if (board[i - 1][j] === 'X' && board[i][j - 1] === 'X') continue;
-                  return 0;
-                 } 
-                }
-              }
-            }
-          }
+         if (place[i][j] === 'P' && !safePlace(place, i, j)) {
+          return 0;
         }
       }
     }
-    return 1
+      return 1;
   };
 
-  for (let i = 0; i < places.length; i++) {
-    answer.push(checkPlaces(places[i]));
+  function safePlace(place, i, j) {
+    const queue = [[i, j, 0]];
+    const visited = Array.from({ length: row }, () => Array(col).fill(false));
+    visited[i][j] = true;
+
+    while (queue.length) {
+      const [x, y, dist] = queue.shift();
+        
+      if (dist >= 1 && dist <= 2 && place[x][y] === 'P') {
+        return 0;
+      }
+        
+      if (dist >= 2) continue;
+
+      for (const [dx, dy] of directions) {
+        const nx = x + dx;
+        const ny = y + dy;
+        if (
+          nx >= 0 &&
+          nx < row &&
+          ny >= 0 &&
+          ny < col &&
+          !visited[nx][ny] &&
+          place[nx][ny] !== 'X'
+        ) {
+          visited[nx][ny] = true;
+          queue.push([nx, ny, dist + 1]);
+        }
+      }
+    }
+      
+    return 1;
   }
 
+  for (let i = 0; i < places.length; i++) {
+    const result = checkSafePlaces(places[i]);
+    answer.push(result);
+  }
   return answer;
-}
-
-function getManhattanDistance(r1, r2, c1, c2) {
-  return Math.abs(r1 - r2) + Math.abs(c1 - c2);
 }
 
 
