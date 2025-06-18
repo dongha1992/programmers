@@ -1,50 +1,27 @@
+
 function solution(bandage, health, attacks) {
-  const manager = new HealthManager(bandage, health, attacks);
+  const n = attacks[attacks.length - 1][0];
+  const attackMap = new Map(attacks);
 
-  for (let sec = 0; sec <= manager.lastAttackSec; sec++) {
-    if (manager.attackMap.has(sec)) {
-      manager.takeDamage(manager.attackMap.get(sec));
-      if (manager.isDead()) return -1;
+  const [coolTime, hp, addtionalHeal] = bandage;
+  let serialTime = 0;
+  const maxHealth = health;
+
+  for (let sec = 1; sec <= n; sec++) {
+    if (attackMap.has(sec)) {
+      health -= attackMap.get(sec);
+      if (health <= 0) return -1;
+      serialTime = 0;
     } else {
-      manager.recover();
-    }
-    manager.capHealth();
-  }
-  return manager.health;
-};
-
-class HealthManager {
-  constructor(bandage, maxHealth, attacks) {
-    [this.castingTime, this.recoveryAmount, this.extraRecovery] = bandage;
-    this.maxHealth = maxHealth;
-    this.health = maxHealth;
-    this.attackMap = new Map(attacks);
-    this.lastAttackSec = attacks[attacks.length - 1][0];
-    this.serialRecovery = 0;
-  }
-
-  takeDamage(damage) {
-    this.health -= damage;
-    this.serialRecovery = 0;
-  }
-
-  recover() {
-    this.health += this.recoveryAmount;
-    this.serialRecovery++;
-    if (this.serialRecovery === this.castingTime) {
-      this.health += this.extraRecovery;
-      this.serialRecovery = 0;
+      health = Math.min(health + hp, maxHealth);
+      serialTime++;
+        
+      if (serialTime === coolTime) {
+        health = Math.min(health + addtionalHeal, maxHealth);
+        serialTime = 0;
+      }
     }
   }
-
-  isDead() {
-    return this.health <= 0;
-  }
-
-  capHealth() {
-    this.health = Math.min(this.health, this.maxHealth);
-  }
+  return health;
 }
-
-
 
