@@ -1,48 +1,56 @@
 function solution(land) {
- const dx = [-1, 0, 1, 0];
-    const dy = [0, 1, 0, -1];
-    const n = land.length;
-    const m = land[0].length;
-    let dp = Array(m).fill().map(() => 0);
-    let answer = 0;
-  
-    const bfs = (j, i) => {
-      const queue = []
-      queue.push([j, i])
-      let ch = Array(m).fill().map(() => 0);
-      let cnt = 0;
-      
-      while(queue.length){
-         const [y, x] = queue.shift()
-         ch[x] = 1;
-         for (let i = 0; i < 4; i++) {
-            const ny = y + dy[i];
-            const nx = x + dx[i];
-                if (ny >= 0 && ny < n && nx >= 0 && nx < m && land[ny][nx] === 1) {
-                    queue.push([ny, nx]);
-                    land[ny][nx] = 0;   
-                    ch[nx] = 1;
-                    cnt++
-                }
-            }
-       }
-      for(let k = 0; k < m; k++){
-        if(ch[k]){
-          dp[k] += cnt
-        }
+  const n = land.length;
+  const m = land[0].length;
+
+  const dx = [0, 1, 0, -1];
+  const dy = [-1, 0, 1, 0];
+
+  const visited = Array.from({ length: n }, () =>
+    Array.from({ length: m }).fill(false)
+  );
+  const dist = Array.from({ length: m }).fill(false);
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (land[i][j] === 1 && !visited[i][j]) {
+        bfs(i, j);
       }
     }
+  }
     
-    for(let i = 0; i < m; i++){
-      for(let j = 0; j < n; j++){
-        if(land[j][i] === 1){
-          bfs(j, i)
+  function valid(nx, ny) {
+    return nx >= 0 && nx < n && ny >= 0 && ny < m;
+  }
+
+  function bfs(i, j) {
+    visited[i][j] = true;
+    const queue = [[i, j, 1]];
+    let sum = 1;
+    let start = Infinity;
+    let end = -1;
+
+    while (queue.length) {
+      const [x, y] = queue.shift();
+
+      for (let k = 0; k < 4; k++) {
+        const nx = dx[k] + x;
+        const ny = dy[k] + y;
+
+        if (valid(nx, ny) && !visited[nx][ny] && land[nx][ny] === 1) {
+          visited[nx][ny] = true;
+          queue.push([nx, ny]);
+          sum++;
         }
       }
+      start = Math.min(start, y);
+      end = Math.max(end, y);
     }
 
-    return Math.max(...dp);
+    for (let i = start; i <= end; i++) {
+      dist[i] += sum;
+    }
+  }
+    
+  return Math.max(...dist)
+
 }
-
-
-
