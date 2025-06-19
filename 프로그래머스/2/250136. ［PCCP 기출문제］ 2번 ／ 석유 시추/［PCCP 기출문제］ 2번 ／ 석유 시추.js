@@ -29,6 +29,7 @@ function solution(land) {
     let start = Infinity;
     let end = -1;
 
+    let front = 0;
     while (queue.length) {
       const [x, y] = queue.shift();
 
