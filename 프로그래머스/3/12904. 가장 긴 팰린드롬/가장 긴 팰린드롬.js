@@ -27,3 +27,46 @@ function solution(s) {
   }
   return max;
 }
+
+
+
+
+
+
+
+
+function solution(s) {
+    let max = 0;
+    
+    for(let i = 0; i < s.length; i++) {
+        let str = ""
+        for(let j = i; j < s.length; j++) {
+            str += s[j]
+            if(str.length < max) continue;
+            if(vaild(str)) {
+                max = Math.max(max, str.length)
+            }
+        }
+    }
+    
+    function vaild(s) {
+        let lt = 0;
+        let rt = s.length - 1
+        
+        while(lt < rt) {
+            if(s[lt++] !== s[rt--]) return false
+        }
+        
+        return true
+    }
+    
+    return max
+}
+
+
+
+
+
+
+
+
