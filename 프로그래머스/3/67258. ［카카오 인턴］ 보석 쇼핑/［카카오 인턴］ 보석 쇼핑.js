@@ -1,27 +1,35 @@
-function solution(gems) {
- const set = new Set(gems)
- let n = set.size;
- let gemsMap = new Map()
- let minDiff = Infinity
- const answer = []
 
-  
-  for(let rt = 0; rt < gems.length; rt++){
-    const gem = gems[rt]
-    gemsMap.delete(gem);
-    gemsMap.set(gem, rt)
-    
-    if(gemsMap.size === n){
-      const min = gemsMap.values().next().value
-      const diff = rt - min
-      
-      if(minDiff > diff){
-        minDiff = diff 
-        answer[0] = [min+1, rt+1]
+function solution(gems) {
+  const n = gems.length;
+  const gemKinds = new Set(gems).size;
+  const gemCount = new Map();
+
+  let answer = [0, n - 1];
+  let lt = 0,
+    rt = 0;
+
+  gemCount.set(gems[0], 1);
+
+  while (lt <= rt && rt < n) {
+    if (gemCount.size === gemKinds) {
+      if (rt - lt < answer[1] - answer[0]) {
+        answer = [lt, rt];
+      }
+
+      const leftGem = gems[lt];
+      gemCount.set(leftGem, gemCount.get(leftGem) - 1);
+      if (gemCount.get(leftGem) === 0) {
+        gemCount.delete(leftGem);
+      }
+      lt++;
+    } else {
+      rt++;
+      const rightGem = gems[rt];
+      if (rightGem !== undefined) {
+        gemCount.set(rightGem, (gemCount.get(rightGem) || 0) + 1);
       }
     }
   }
-
-  return answer[0]
+  return [answer[0] + 1, answer[1] + 1];
 }
 
