@@ -1,81 +1,83 @@
+function solution(enroll, referral, seller, amount) {
+  const myTree = new Tree();
+
+  for (let i = 0; i < enroll.length; i++) {
+    myTree.insert(enroll[i], referral[i], 0);
+  }
+
+  for (let i = 0; i < seller.length; i++) {
+    myTree.traverseUp(seller[i], amount[i]);
+  }
+
+  return myTree.search(enroll);
+}
+
 class Node {
-  constructor(name, parent, profit) {
+  constructor(name, parent, amount = 0) {
     this.name = name;
-    this.parent = parent ?? null;
-    this.profit = profit ?? 0;
+    this.amount = amount || 0;
+    this.parent = parent || null;
+    this.profit = 0;
     this.children = [];
   }
 }
 
 class Tree {
   constructor() {
-    this.root = new Node('-', null, 0);
-    this.nodeMap = new Map()
+    this.root = new Node('-', 0, 0);
+    this.map = new Map();
   }
 
-  insert(enroll, referral, seller, amount) {
-    this.nodeMap.set("-", this.root)
-    
-    for (let i = 0; i < enroll.length; i++) {
-      const name = enroll[i];
-      const node = new Node(name, referral[i], 0);
-      this.nodeMap.set(name, node)
-    }
+  insert(name, parent, amount) {
+    const node = new Node(name, parent, amount);
+    this.map.set(name, node);
 
-    for (let i = 0; i < referral.length; i++) {
-      const parentName = referral[i];
-      const childNode = this.nodeMap.get(enroll[i])
-      const parentNode = this.nodeMap.get(parentName)
-
-      if (parentNode && childNode) {
-        parentNode.children.push(childNode);
-        childNode.parent = parentNode;
-      }
-    }
-  }
-
-  findNode(nodeName) {
-    if (!this.nodeMap.get(nodeName)) return;
-    return this.nodeMap.get(nodeName)
-  }
-
-  traverseUp(nodeName, profit, sum) {
-    const node = this.findNode(nodeName);
-    if (!node) return sum
-    if (node.parent || nodeName === "-") {
-      const left =  Math.floor(profit * 0.1)
-      let newProfit = profit - left
-      node.profit += newProfit
-      if(left) this.traverseUp(node.parent?.name, left, newProfit);
+    if (parent === '-') {
+      this.root.children.push(node);
+      node.parent = this.root;
     } else {
-      return sum
-      console.log('더 이상 부모 노드가 없습니다.');
+      const foundParent = this.map.get(parent);
+      if (!foundParent) throw new Error('부모를 못 찾음');
+      foundParent.children.push(node);
+      node.parent = foundParent;
     }
   }
-  
-  getProfit(nodeName){
-    const node = this.findNode(nodeName);
-    if (!node) return 0
-    return node.profit
+
+  traverseUp(name, amount) {
+    let node = this.map.get(name);
+    if (!node) return;
+    let profit = amount * 100;
+
+    node.amount = amount;
+
+    while (node.parent) {
+      const give = Math.floor(profit * 0.1);
+      const keep = profit - give;
+
+      node.profit += keep;
+      node = node.parent;
+      profit = give;
+    }
+  }
+
+  find(root, name) {
+    if (!root) return null;
+    if (root.name === name) return root;
+
+    for (const child of root.children) {
+      const result = this.find(child, name);
+      if (result) return result;
+    }
+
+    return null;
+  }
+
+  peek() {
+    return this.root;
+  }
+
+  search(enroll) {
+    return enroll.map((name) => this.map.get(name).profit);
   }
 }
 
-function solution(enroll, referral, seller, amount) {
-  const tree = new Tree();
-  const answer = []
-  tree.insert(enroll, referral, seller, amount);
-  
-  for(let i = 0; i < seller.length; i++){
-    const s = seller[i]
-    const p = amount[i] * 100
-    tree.traverseUp(s, p, 0)
-  }
-  
- 
-  for(let i = 0; i < enroll.length; i++){
-    const e = enroll[i]
-    answer.push(tree.getProfit(e))
-  }
-  
-  return answer;
-}
