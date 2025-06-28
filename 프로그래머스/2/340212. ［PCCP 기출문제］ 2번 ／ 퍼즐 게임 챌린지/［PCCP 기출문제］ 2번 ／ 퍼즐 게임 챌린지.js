@@ -3,19 +3,19 @@ function solution(diffs, times, limit) {
     let totalTime = 0;
 
     for (let i = 0; i < diffs.length; i++) {
-      const diff = (diffs[i]);
-      const time = (times[i]);
-      const prevTime = i > 0 ? (times[i - 1]) : 0;
+      const diff = diffs[i];
+      const time = times[i];
+      const prevTime = i > 0 ? times[i - 1] : 0;
 
-      if (diff > (level)) {
-        const failTime = diff - (level);
+      if (diff > level) {
+        const failTime = diff - level
         const retryTime = failTime * (time + prevTime) + time;
         totalTime += retryTime;
       } else {
         totalTime += time;
       }
 
-      if (totalTime > (limit)) return totalTime;
+      // if (totalTime > limit) return totalTime;
     }
 
     return totalTime;
