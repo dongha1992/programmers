@@ -1,5 +1,6 @@
 function solution(numbers) {
   const dist = getDistMap();
+    console.log(dist)
   const n = numbers.length;
   const visited = Array.from({ length: 10 }, () =>
     Array.from({ length: 10 }, () => Array(n + 1).fill(Infinity)),
@@ -69,6 +70,7 @@ function getDistMap() {
     const queue = [];
     const [sx, sy] = keypad[i];
     queue.push([sx, sy, 0]);
+    visited[sx][sy] = true;
 
     while (queue.length) {
       const [x, y, d] = queue.shift();
