@@ -1,21 +1,59 @@
 function solution(n, works) {
-  works.sort((a, b) => b - a);
-    
-  while (n) {
-      
-    let i = 0;
-    while(works[i] < works[i+1]) {
-        [works[i] , works[i+1]] = [works[i+1] , works[i]];
-        i++
-    }
-        
-    if (!works[0]) break;
-    works[0]--;
-    n--;
-  }
+    let cnt = n;
+    works.sort((a, b) => b - a);
+    while(n) {
 
-  return works.reduce((acc, cur) => acc + Math.pow(cur, 2), 0);
+        let i = 0;
+        while(works[i] < works[i+1]){
+            [works[i], works[i+1]] = [works[i+1], works[i]]
+            i++
+        } 
+            
+        if (works[0] === 0) break;
+
+         works[0]--
+           
+        n--
+    }
+    
+    return works.reduce((acc, cur) => acc + Math.pow(cur,2), 0)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function solution(n, works) {
+//   works.sort((a, b) => b - a);
+    
+//   while (n) {
+      
+//     let i = 0;
+//     while(works[i] < works[i+1]) {
+//         [works[i] , works[i+1]] = [works[i+1] , works[i]];
+//         i++
+//     }
+        
+//     if (!works[0]) break;
+//     works[0]--;
+//     n--;
+//   }
+
+//   return works.reduce((acc, cur) => acc + Math.pow(cur, 2), 0);
+// }
 
 
 
