@@ -1,18 +1,25 @@
 function solution(targets) {
-let answer = 0;
-  
- targets.sort(([a1, a2], [b1, b2]) => 
-  a2 === b2 ? a1 - b1 : a2 - b2
-)
-  
-  let et = 0;
-  for(const x of targets){
-    const [s, e] = x;
-    if(s >= et){
-      answer++;
-      et = e;
-    }
-  }
-  
-  return answer;
+    let answer = 0;
+    targets.sort((a, b) => a[1] - b[1])
+    
+    let et = 0;
+    for(let i = 0; i < targets.length; i++) {
+        const [s, e] = targets[i];
+        if(s >= et) {
+            answer++
+            et = e
+        }
+    } 
+    return answer
 }
+
+
+
+
+
+
+
+
+
+
+
